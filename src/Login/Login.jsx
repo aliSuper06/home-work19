@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useNavigate } from "react-router-dom";
-import { actionTypes } from "../store/auth";
+import { useNavigate } from "react-router-dom";
+import { ActionTypeAuth } from "../store/authSlice";
 
 const LoginPage = () => {
   const auth = useSelector((state) => state.auth.auth);
+  console.log("auth: ", auth);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -42,8 +43,9 @@ const LoginPage = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    dispatch({ type: actionTypes.LOGIN });
+    dispatch(ActionTypeAuth.login());
   };
+
   return (
     <div>
       <form onSubmit={submitHandler}>

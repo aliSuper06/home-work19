@@ -1,30 +1,29 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { inputNumber, calculate, reset } from "./calculatorActions";
 import { styled } from "styled-components";
+import { AcitonTypeCalculator } from "../store/calculatorSlice";
 
 export const Calculator = () => {
-  const input = useSelector((state) => state.calculator.input);
-  const result = useSelector((state) => state.calculator.result);
+  const { input } = useSelector((state) => state.calculator);
+  const { result } = useSelector((state) => state.calculator);
   const dispatch = useDispatch();
 
   const handleInputNumber = (value) => {
-    dispatch(inputNumber(value));
+    dispatch(AcitonTypeCalculator.inputNumber(value));
   };
 
   const handleCalculate = () => {
-    dispatch(calculate());
+    dispatch(AcitonTypeCalculator.calculate());
   };
 
   const handleReset = () => {
-    dispatch(reset());
+    dispatch(AcitonTypeCalculator.reset());
   };
 
   return (
     <Container>
       <h2>Calculator</h2>
-      <input type="text" value={input} readOnly />
-      <br />
+      <input type="text" value={input} />
       <button onClick={() => handleInputNumber("1")}>1</button>
       <button onClick={() => handleInputNumber("2")}>2</button>
       <button onClick={() => handleInputNumber("3")}>3</button>

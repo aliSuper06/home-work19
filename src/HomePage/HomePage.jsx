@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 
 export const HomePage = () => {
+  console.log("HomePage: ");
   return (
     <Container>
       <Link className="Link" to="/todo">

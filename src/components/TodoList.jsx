@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { connect, useSelector } from "react-redux";
-import { addTodo, deleteTodo, completeTodo, editTodo } from "./actions";
+import { useDispatch, useSelector } from "react-redux";
+import { AcitonTypeTodo } from "../store/todoSlice";
 
-const TodoList = ({ addTodo, deleteTodo, completeTodo, editTodo }) => {
+const TodoList = () => {
   const [newTodo, setNewTodo] = useState("");
-  const todoshka = useSelector((state) => state.todo.todos);
+  const dispatch = useDispatch();
+  const { todos } = useSelector((state) => state.todo);
 
   const handleAddTodo = () => {
     if (newTodo.trim() !== "") {
@@ -13,21 +14,21 @@ const TodoList = ({ addTodo, deleteTodo, completeTodo, editTodo }) => {
         text: newTodo,
         completed: false,
       };
-      addTodo(todo);
+      dispatch(AcitonTypeTodo.addTodo(todo));
       setNewTodo("");
     }
   };
 
   const handleDeleteTodo = (id) => {
-    deleteTodo(id);
+    dispatch(AcitonTypeTodo.deleteTodo(id));
   };
 
   const handleCompleteTodo = (id) => {
-    completeTodo(id);
+    dispatch(AcitonTypeTodo.completed(id));
   };
 
   const handleEditTodo = (id, newText) => {
-    editTodo(id, newText);
+    dispatch(AcitonTypeTodo.edit({ id, newText }));
   };
 
   return (
@@ -40,10 +41,12 @@ const TodoList = ({ addTodo, deleteTodo, completeTodo, editTodo }) => {
       <button onClick={handleAddTodo}>Add Todo</button>
 
       <ul>
-        {todoshka.map((todo) => (
+        {todos.map((todo) => (
           <li key={todo.id}>
             <span
-              style={{ textDecoration: todo.completed ? "line-through" : "" }}
+              style={{
+                textDecoration: todo.completed ? "line-through" : "",
+              }}
             >
               {todo.text}
             </span>
@@ -68,15 +71,4 @@ const TodoList = ({ addTodo, deleteTodo, completeTodo, editTodo }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  todos: state.todos,
-});
-
-const mapDispatchToProps = {
-  addTodo,
-  deleteTodo,
-  completeTodo,
-  editTodo,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
+export default TodoList;
